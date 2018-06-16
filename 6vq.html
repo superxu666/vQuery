@@ -1,0 +1,65 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="div1" class="box"></div>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <span></span>
+
+    <script src="./vQuery.js"></script>
+    <script>
+        $(function () {
+
+            // $('.box').hover(function () {
+
+            //     console.log(this)
+            //     this.style.background = 'yellow';
+
+            // }, function() {
+
+            //     this.style.background = 'red';
+            // });
+
+
+
+            $('.box').hover(function () {
+
+                
+                $(this).css('background', 'yellow');
+                $('li').css({
+                    'background': 'yellow'
+                });
+
+            }, function () {
+
+                $(this).css('background', 'red');
+                $('li').css({
+                    'background': 'red'
+                });
+            });
+
+        })
+    </script>
+</body>
+
+</html>
