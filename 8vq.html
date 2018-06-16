@@ -16,11 +16,10 @@
 
 <body>
 
-    <div id="div1" class="box" title="title"></div>
-    <ul>
+    <ul class="ul1">
         <li></li>
         <li></li>
-        <li></li>
+        <li class="li3"></li>
         <li></li>
     </ul>
 
@@ -30,7 +29,13 @@
     <script>
         $(function () {
 
-            alert($('#div1').attr('title'));
+            
+            // $('li').eq(1).css({
+            //     background: 'red'
+            // })
+
+            console.log($('.li3').index())
+
         })
     </script>
 </body>

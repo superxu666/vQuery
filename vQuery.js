@@ -1,9 +1,25 @@
 function bindEvent(obj, events, func) {
     if (obj.addEventListener) {
 
-        obj.addEventListener(events, func, false);
+        obj.addEventListener(events, function(event) {
+            
+            if (func() == false) {
+
+                event.preventDefault();
+                event.cancelBubble = true;
+            }
+
+        }, false);
     } else {
-        obj.attachEvent('on' + events, func);
+        obj.attachEvent('on' + events, function(event) {
+
+            if (func() == false) {
+
+                window.event.cancelBubble = true;
+                return false;
+            }
+
+        });
     }
 }
 
@@ -28,7 +44,7 @@ function getByClass(oParent, sClass) {
         if (elems[i].className == sClass) {
             arr.push(elems[i]);
         }
-        
+
     }
     return arr;
 
@@ -75,7 +91,13 @@ function Vquery(vArg) {
             }
             break;
         case 'object':
-            this.elements.push(vArg);
+            if (vArg.constructor == Array) {
+
+                this.elements = vArg;
+            } else {
+                
+                this.elements.push(vArg);
+            }
             break;
         default:
             break;
@@ -90,14 +112,14 @@ function Vquery(vArg) {
 Vquery.prototype.css = function (attr, value) {
 
     if (arguments.length == 2) { // 设置
-        
+
         for (let i = 0; i < this.elements.length; i++) {
             this.elements[i].style[attr] = value
-            
+
         }
     } else if (arguments.length == 1) { // 获取
         if (typeof attr == 'object') {
-            
+
             for (const key in attr) {
                 for (let i = 0; i < this.elements.length; i++) {
                     this.elements[i].style[key] = attr[key];
@@ -107,6 +129,8 @@ Vquery.prototype.css = function (attr, value) {
             return getStyle(this.elements[0], attr);
         }
     }
+
+    return this;
 }
 
 /**
@@ -115,71 +139,121 @@ Vquery.prototype.css = function (attr, value) {
 Vquery.prototype.html = function (html) {
 
     if (html) { // 设置
-        
+
         for (let i = 0; i < this.elements.length; i++) {
             this.elements[i].innerHTML = html;
-            
+
         }
     } else { // 获取
         return this.elements[0].innerHTML;
     }
+
+    return this;
+
 }
 
 Vquery.prototype.attr = function (attr, value) {
 
     if (arguments.length == 2) { // 设置
-        
-        
+        for (let i = 0; i < this.elements.length; i++) {
+            this.elements[i].setAttribute(attr, value);
+
+        }
     } else if (arguments.length == 1) { // 获取
+        return this.elements[0].getAttribute(attr);
+    }
+
+    return this;
+}
+
+Vquery.prototype.eq = function (num) {
+
+    return $(this.elements[num]);
+}
+
+Vquery.prototype.index = function() {
+
+    // console.log(this.elements[0].parentNode);
+
+    var children = this.elements[0].parentNode.children;
+    for (let i = 0; i < children.length; i++) {
+        if (children[i] == this.elements[0]) {
+            return i;
+        }
         
     }
 }
 
-Vquery.prototype.click = function(func) {
+
+Vquery.prototype.find = function(sel) {
+
+    var arr = [];
+
+    if (sel.charAt(0) == '.') {
+
+        for (let i = 0; i < this.elements.length; i++) {
+            arr = arr.concat(getByClass(this.elements[i], sel.substring(1)));
+            
+        }
+    } else {
+
+         console.log(this);
+         for (let i = 0; i < this.elements.length; i++) {
+             
+             arr = arr.concat(toArray(this.elements[i].getElementsByTagName(sel)));
+         }
+    }
+
+    return $(arr);
+}
+
+
+
+Vquery.prototype.click = function (func) {
 
     // for (let i = 0; i < this.elements.length; i++) {
     //     bindEvent(this.elements[i], 'click', func);
-        
+
     // }
 
     this.on('click', func);
 }
 
-Vquery.prototype.mouseover = function(func) {
+Vquery.prototype.mouseover = function (func) {
 
     // for (let i = 0; i < this.elements.length; i++) {
     //     bindEvent(this.elements[i], 'mouseover', func);
-        
+
     // }
-    
+
     this.on('click', mouseover);
 }
 
-Vquery.prototype.on = function(events, func) {
+Vquery.prototype.on = function (events, func) {
 
     for (let i = 0; i < this.elements.length; i++) {
         bindEvent(this.elements[i], events, func);
-        
+
     }
 }
 
-Vquery.prototype.hide = function() {
+Vquery.prototype.hide = function () {
 
     for (let i = 0; i < this.elements.length; i++) {
         this.elements[i].style.display = 'none';
-        
+
     }
 }
 
-Vquery.prototype.show = function() {
+Vquery.prototype.show = function () {
 
     for (let i = 0; i < this.elements.length; i++) {
         this.elements[i].style.display = 'block';
-        
+
     }
 }
 
-Vquery.prototype.hover = function(funcOver, funcOut) {
+Vquery.prototype.hover = function (funcOver, funcOut) {
 
     funcOver && this.on('mouseover', funcOver);
     funcOut && this.on('mouseout', funcOut);
@@ -188,3 +262,4 @@ Vquery.prototype.hover = function(funcOver, funcOut) {
 function $(vArg) {
     return new Vquery(vArg);
 }
+

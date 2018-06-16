@@ -16,13 +16,22 @@
 
 <body>
 
-    <div id="div1" class="box" title="title"></div>
+    <ul class="ul1">
+        <li></li>
+        <li></li>
+        <li class="li3"></li>
+        <li></li>
+    </ul>
     <ul>
         <li></li>
         <li></li>
-        <li></li>
-        <li></li>
+        <li class="li3"></li>
     </ul>
+    <ol>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ol>
 
     <span></span>
 
@@ -30,7 +39,17 @@
     <script>
         $(function () {
 
-            alert($('#div1').attr('title'));
+
+            // $('ul').find('.li3').css({
+            //     background: 'red'
+            // });
+
+
+            $('ul').find('li').css({
+                background: 'red'
+            });
+
+
         })
     </script>
 </body>

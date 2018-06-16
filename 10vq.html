@@ -16,21 +16,20 @@
 
 <body>
 
-    <div id="div1" class="box" title="title"></div>
-    <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
-
-    <span></span>
+    <div></div>
+    <div class="div1"></div>
+    <div></div>
 
     <script src="./vQuery.js"></script>
     <script>
         $(function () {
 
-            alert($('#div1').attr('title'));
+
+            $('.div1').html('gngiodsf').css('background', 'red').on('click', function() {
+                alert(123);
+            });
+
+
         })
     </script>
 </body>
