@@ -24,18 +24,32 @@
     <script>
         $(function () {
 
-
             $.extend({
-                aaa: function() {
+                aaa: function () {
                     alert('aaa');
                 },
-                bbb: function() {
+                bbb: function () {
                     alert('bbb');
                 }
             });
 
-            $().aaa();
-            $().bbb();
+            // $.aaa();
+            // $.bbb();
+
+            $.fn.extend({
+                ccc: function () {
+                    alert('ccc');
+                },
+                ddd: function () {
+                    alert('ddd');
+                }
+            });
+
+            $().ccc();
+            $().ddd();
+
+
+
 
 
         })

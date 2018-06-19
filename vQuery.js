@@ -259,7 +259,24 @@ Vquery.prototype.hover = function (funcOver, funcOut) {
     funcOut && this.on('mouseout', funcOut);
 }
 
+
+
 function $(vArg) {
     return new Vquery(vArg);
 }
 
+$.extend = function(json) {
+
+    for (var attr in json) {
+        $[attr] = json[attr];
+    }
+}
+
+$.fn = {};
+
+$.fn.extend = function(json) {
+
+    for (var attr in json) {
+        Vquery.prototype[attr] = json[attr];
+    }
+}
